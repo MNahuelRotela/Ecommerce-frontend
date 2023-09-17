@@ -19,6 +19,7 @@ function App() {
     <div className="App">
         
         <Routes>
+        <Route path="/" element={<Navigate to="/home" replace />} />
         <Route path="/home" element={<Store />} />
         <Route path="/home/:productId" element={<Detail />} />
         <Route path="/navbar" element={<NavBar />} />
