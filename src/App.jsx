@@ -19,7 +19,7 @@ function App() {
     <div className="App">
         
         <Routes>
-        <Route path="/" element={<Store />} />
+        <Route path="/home" element={<Store />} />
         <Route path="/home/:productId" element={<Detail />} />
         <Route path="/navbar" element={<NavBar />} />
         <Route path="/filter" element={<Filters />} />

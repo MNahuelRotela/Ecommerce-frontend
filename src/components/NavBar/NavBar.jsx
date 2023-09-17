@@ -30,7 +30,7 @@ const NavBar = () => {
   return (
     <div className="navbar bg-base-100 fixed top-0 shadow-md py-3 z-10">
       <div className="flex-1">
-        <Link to="/home" className="text-black hover:text-gray-500">
+        <Link to="/" className="text-black hover:text-gray-500">
           <img
             src={logo}
             alt="logo"
