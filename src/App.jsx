@@ -1,5 +1,5 @@
 import './App.css'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 // import ProductComponent from './components/ProductComponent.jsx'
 import Store from './views/Store'
 import Detail from './views/Detail'
@@ -19,9 +19,8 @@ function App() {
     <div className="App">
         
         <Routes>
-        <Route path="/" element={<Navigate to="/home" replace />} />
-        <Route path="/home" element={<Store />} />
-        <Route path="/home/:productId" element={<Detail />} />
+        <Route path="/" element={<Store />} />
+        <Route path="/store/:productId" element={<Detail />} />
         <Route path="/navbar" element={<NavBar />} />
         <Route path="/filter" element={<Filters />} />
         <Route path="/login" element={<Login />} />

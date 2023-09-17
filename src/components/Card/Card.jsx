@@ -8,7 +8,7 @@ function Card({ name, img_url, finalPrice, id, price, discountPercentage, brand_
 
   return (
     <div className="card w-72 bg-base-100 shadow-xl m-2 rounded-md p-2 bg-white">
-      <Link to={`/home/${id}`} className="flex justify-center">
+      <Link to={`/store/${id}`} className="flex justify-center">
         <figure className="cursor-pointer">
           <img width={"180px"} src={img_url} alt={name} />
         </figure>
