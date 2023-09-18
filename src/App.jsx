@@ -7,6 +7,10 @@ import NavBar from './components/NavBar/NavBar'
 // import Filtersa from './components/Filter/filterOptions'
 import Filters from './components/Filter/filterCard'
 import Login from './components/Login/Login'
+import About from './views/About'
+import ContactForm from './components/Contact/ContactForm'
+import Faqs from './views/Faqs'
+import Footer from './components/Footer/Footer'
 
 
 
@@ -24,9 +28,12 @@ function App() {
         <Route path="/navbar" element={<NavBar />} />
         <Route path="/filter" element={<Filters />} />
         <Route path="/login" element={<Login />} />
-        
-        
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<ContactForm />} />
+        <Route path="/faqs" element={<Faqs />} />
+
         </Routes>
+        <Footer />
 
     </div>
   )

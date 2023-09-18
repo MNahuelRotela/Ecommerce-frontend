@@ -31,18 +31,18 @@ export const addNewUsers = createAsyncThunk(
   }
 );
 
-// export const updateUser = createAsyncThunk("users/updateUsers",
-//   async ({ id, data }) => {
-//     try {
-//       const response = await axios.put(`http://localhost:3001/users/${id}`, data);
-//       const updatedUser = response.data;
-//       return updatedUser;
+export const updateUser = createAsyncThunk("users/updateUsers",
+  async ({ id, data }) => {
+    try {
+      const response = await axios.put(`${URL}/users/${id}`, data);
+      const updatedUser = response.data;
+      return updatedUser;
 
-//     } catch (error) {
-//       throw new Error(error.message);
-//     }
-//   }
-// )
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+)
 
 export const usersSlice = createSlice({
   name: "users",

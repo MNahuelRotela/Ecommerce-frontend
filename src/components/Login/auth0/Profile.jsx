@@ -10,7 +10,7 @@ function Profile() {
   const { user, logout, isAuthenticated, auth0 } = useAuth0();
   const isAdmin = verifyAdmin();
   const dispatch = useDispatch();
-  const dbUsers = useSelector(getAllUsers)
+  const dbUsers = useSelector(getAllUsers);
 
   const [newUser, setNewUser] = useState({
     name: user?.given_name ?? "none",
@@ -18,22 +18,25 @@ function Profile() {
     user: user?.nickname ?? "",
     mail: user?.email ?? "",
     isAdmin: false,
-  })
+  });
+
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const sendVerificationEmail = () => {
     if (auth0 && user?.email) {
-      auth0.sendEmailVerification({ email: user.email })
+      auth0
+        .sendEmailVerification({ email: user.email })
         .then(() => {
           Swal.fire(
-            'Correo enviado con éxito!',
-            'Si no encuentras el correo, revisa en tu bandeja de correos no deseados.',
-            'success'
+            "Correo enviado con éxito!",
+            "Si no encuentras el correo, revisa en tu bandeja de correos no deseados.",
+            "success"
           );
         })
         .catch((error) => {
           Swal.fire({
-            icon: 'error',
-            title: 'Hubo un problema al enviar el correo, inténtalo más tarde.',
+            icon: "error",
+            title: "Hubo un problema al enviar el correo, inténtalo más tarde.",
           });
         });
     }
@@ -42,34 +45,47 @@ function Profile() {
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("isAuthenticated", JSON.stringify(isAuthenticated));
-    localStorage.setItem("isAdmin", JSON.stringify(isAdmin))
+    localStorage.setItem("isAdmin", JSON.stringify(isAdmin));
   }, [user, isAuthenticated]);
 
   useEffect(() => {
-    const userExists = dbUsers.some((dbUser) => dbUser.mail !== newUser.mail || dbUser.user !== newUser.user);
+    const userExists = dbUsers.some(
+      (dbUser) => dbUser.mail !== newUser.mail || dbUser.user !== newUser.user
+    );
 
     if (newUser.mail !== "" || newUser.user !== "") {
       if (!userExists) {
         dispatch(addNewUsers(newUser));
       }
     }
+  }, [dispatch]);
 
-  }, [dispatch])
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const closeDropdown = () => {
+    setIsDropdownOpen(false);
+  };
 
   const logoutHandler = () => {
     localStorage.setItem("cart", JSON.stringify([]));
     localStorage.setItem("totalPrice", JSON.stringify(0));
-    logout()
-  }
+    logout();
+  };
 
   return (
     isAuthenticated && (
-      <div className="fixed right-0 top-0 dropdown dropdown-end">
-        <label tabIndex={0} className="cursor-pointer m-1 flex items-center">
-          <strong>{user?.nickname}</strong>
+      <div className="fixed top-0 right-4 md:top-14 md:right-20">
+        <label
+          tabIndex={0}
+          className="cursor-pointer m-1 flex items-center dark:text-white"
+          onClick={toggleDropdown}
+        >
+          <strong className="text-xs md:text-base">{user?.nickname}</strong>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-0 ml-1"
+            className={`h-5 w-0 ml-1 ${isDropdownOpen ? "rotate-180" : ""}`}
             viewBox="0 0 20 20"
             fill="currentColor"
           >
@@ -77,30 +93,30 @@ function Profile() {
           </svg>
         </label>
 
-        <ul
-          tabIndex={0}
-          className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
-        >
-          {/* <li >
-            <Link className="text-gray-500" to={"/cuenta"}>Mi cuenta</Link>
-          </li>
-          <li>
-            <Link className="text-gray-500" to={"/compras"}>Mis compras</Link>
-          </li> */}
-          {user.email_verified === false &&
-            (<li onClick={sendVerificationEmail}>
-              <span className="text-red-700 cursor-pointer  font-semibold">Verificar email</span>
-            </li>)
-          }
-          {isAdmin && (
-            <li>
-              <Link className="text-gray-500" to={"/administracion/index"}>Administracion</Link>
+        {isDropdownOpen && (
+          <div
+            tabIndex={0}
+            className="dropdown-content z-[1] menu p-2 shadow bg-orange-300 dark:bg-gray-800 rounded-md w-40 md:w-48 absolute -right-4"
+          >
+            {user.email_verified === false && (
+              <li onClick={sendVerificationEmail}>
+                <span className="text-red-700 cursor-pointer  font-semibold text-sm md:text-base">Verificar email</span>
+              </li>
+            )}
+            {isAdmin && (
+              <li>
+                <Link className="text-gray-500 dark:text-white text-sm md:text-base" to={"/administracion/index"}>
+                  Administracion
+                </Link>
+              </li>
+            )}
+            <li onClick={logoutHandler}>
+              <a className="text-gray-500 cursor-pointer dark:text-white text-sm md:text-base" onClick={closeDropdown}>
+                Cerrar sesión
+              </a>
             </li>
-          )}
-          <li onClick={logoutHandler}>
-            <a className="text-gray-500">Cerrar sesión</a>
-          </li>
-        </ul>
+          </div>
+        )}
       </div>
     )
   );

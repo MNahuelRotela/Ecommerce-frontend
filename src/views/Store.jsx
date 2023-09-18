@@ -31,7 +31,7 @@ function Store() {
   }));
 
   return (
-    <div className="flex-col text-center mt-40 bg-gray-100 dark:bg-gray-800">
+    <div className="flex-col text-center mt-36 bg-gray-100 dark:bg-gray-800">
       <header>
         <NavBar />
       </header>
